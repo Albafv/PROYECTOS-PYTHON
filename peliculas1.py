@@ -1,31 +1,54 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-#Lista vacía de películas:
+#Lista vacía de películas: cada película será un diccionario
 listapelis=[]
 
 #Función para añadir películas
 def meterenlista():
-    meter=input("Añade una película: ")
-    if meter in listapelis:
+    nombre = input("Añade una película: ")
+    
+    # Verificar si la película ya existe por nombre
+    if any(pelicula['nombre'] == nombre for pelicula in listapelis):
         print("Esa película ya está en la lista")
     else:
-        listapelis.append(meter)
+        # Pedir los metadatos de la película
+        director = input("Introduce el director de la película: ")
+        año = input("Introduce el año de la película: ")
+        presupuesto = input("Introduce el presupuesto de la película: ")
+        
+        # Crear un diccionario para la película
+        pelicula = {
+            'nombre': nombre,
+            'director': director,
+            'año': año,
+            'presupuesto': presupuesto
+        }
+        
+        # Añadir la película a la lista
+        listapelis.append(pelicula)
         print("Película añadida!")
 
 #Función para buscar películas
 def buscarenlista():
     buscar=input("Busca si una película está en la lista: ")
-    if buscar in listapelis:
+    # Buscar la película por nombre
+    pelicula_encontrada = next((pelicula for pelicula in listapelis if pelicula['nombre'] == buscar), None)
+    
+    if pelicula_encontrada:
         print("La película está en la lista!")
+        print(f"Detalles: Director: {pelicula_encontrada['director']}, Año: {pelicula_encontrada['año']}, Presupuesto: {pelicula_encontrada['presupuesto']}")
     else:
         print("La película no está en la lista")
 
  #Función para borrar películas
 def borrarenlista():
     borrar=input("Elimina una película: ")
-    if borrar in listapelis:
-        listapelis.remove(borrar)
+     # Buscar y eliminar la película por nombre
+    pelicula_encontrada = next((pelicula for pelicula in listapelis if pelicula['nombre'] == borrar), None)
+    
+    if pelicula_encontrada:
+        listapelis.remove(pelicula_encontrada)
         print("Película borrada!")
     else:
         print("Esa película ya no estaba en la lista")
